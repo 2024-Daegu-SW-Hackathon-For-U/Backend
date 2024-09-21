@@ -15,6 +15,7 @@ logging:
 springdoc:
   use-fqn: true
   swagger-ui:
+    tags-sorter: alpha
     path: /api-docs
   paths-to-match: /api/**
   model-and-view-allowed: true
