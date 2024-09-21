@@ -3,6 +3,7 @@ package com.forU.hackathon.service;
 import com.forU.hackathon.dto.map.MapRequest;
 import com.forU.hackathon.dto.map.MapResponse;
 import com.forU.hackathon.entity.Map;
+import com.forU.hackathon.entity.MapType;
 import com.forU.hackathon.repository.MapRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,8 +27,14 @@ public class MapService {
         mapRepository.deleteById(mapId);
     }
 
-    public List<MapResponse.Info> getAll() {
-        return mapRepository.findAll()
+    public List<MapResponse.Info> getAll(MapType mapType) {
+        List<Map> maps;
+        if (mapType == null) {
+            maps = mapRepository.findAll();
+        } else {
+            maps = mapRepository.findAllByType(mapType);
+        }
+        return maps
                 .stream()
                 .map(MapResponse.Info::from)
                 .toList();
