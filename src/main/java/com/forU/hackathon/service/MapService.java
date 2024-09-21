@@ -10,13 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MapService {
     private final MapRepository mapRepository;
 
-    @Transactional
     public MapResponse.Info create(MapRequest.Create request) {
         Map map = new Map(null, request.getName(), request.getType());
         mapRepository.save(map);
         return MapResponse.Info.from(map);
+    }
+
+    public void delete(Long mapId) {
+        mapRepository.deleteById(mapId);
     }
 }
