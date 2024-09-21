@@ -11,8 +11,11 @@ import com.forU.hackathon.service.MemberService;
 import com.forU.hackathon.service.PlaceService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name= "4. Comment", description = "코멘트 관련 API")
 @RestController
@@ -30,11 +33,9 @@ public class CommentController {
         this.placeService = placeService;
         this.kakaoService = kakaoService;
     }
-
     // 코멘트 등록
     @PostMapping
     public ResponseEntity<CommentResponse> createComment(@RequestBody CommentRequest commentRequestDTO, HttpSession session) {
-        // 세션에서 액세스 토큰 가져오기
         String accessToken = (String) session.getAttribute("accessToken");
 
         // 카카오 API를 통해 사용자 정보 가져오기
@@ -52,10 +53,17 @@ public class CommentController {
         Place place = placeService.findById(placeId) // 장소를 DB에서 조회
                 .orElseThrow(() -> new IllegalArgumentException("장소가 존재하지 않습니다."));
 
+        // 동일한 장소에 동일한 회원이 작성한 코멘트가 있는지 확인
+        boolean exists = commentService.checkCommentExists(placeId, memberId);
+        if (exists) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null); // 409 Conflict 응답
+        }
+
         // 댓글 생성
         CommentResponse createdComment = commentService.createComment(commentRequestDTO, member, place);
         return ResponseEntity.ok(createdComment);
     }
+
 
 
     // 코멘트 수정
@@ -66,6 +74,20 @@ public class CommentController {
             return ResponseEntity.ok(updatedComment);
         }
         return ResponseEntity.notFound().build(); // 예외 처리
+    }
+
+    // 코멘트 조회 (GET) - 장소 ID와 멤버 ID로 조회
+    @GetMapping("/place/{placeId}/member/{memberId}")
+    public ResponseEntity<List<CommentResponse>> getCommentsByPlaceAndMember(
+            @PathVariable Long placeId,
+            @PathVariable Long memberId) {
+
+        List<CommentResponse> comments = commentService.getCommentsByPlaceAndMember(placeId, memberId);
+
+        if (comments != null && !comments.isEmpty()) {
+            return ResponseEntity.ok(comments);
+        }
+        return ResponseEntity.notFound().build(); // 코멘트가 없을 경우 404 반환
     }
 
     // 코멘트 삭제

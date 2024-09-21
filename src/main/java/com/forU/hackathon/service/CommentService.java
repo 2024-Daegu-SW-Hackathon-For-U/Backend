@@ -2,6 +2,7 @@ package com.forU.hackathon.service;
 
 import com.forU.hackathon.dto.comment.CommentRequest;
 import com.forU.hackathon.dto.comment.CommentResponse;
+import java.util.List;
 import com.forU.hackathon.entity.Comment;
 import com.forU.hackathon.entity.Place;
 import com.forU.hackathon.entity.Member;
@@ -48,9 +49,30 @@ public class CommentService {
         return null;
     }
 
+    // 코멘트 조회 - 장소 ID와 멤버 ID로 조회
+    @Transactional(readOnly = true)
+    public List<CommentResponse> getCommentsByPlaceAndMember(Long placeId, Long memberId) {
+        List<Comment> comments = commentRepository.findByPlaceIdAndMemberId(placeId, memberId);
+        return comments.stream()
+                .map(comment -> new CommentResponse(
+                        comment.getId(),
+                        comment.getContent(),
+                        comment.getMember().getId(),
+                        comment.getPlace().getId()
+                ))
+                .toList(); // 코멘트 리스트 반환
+    }
+
     // 코멘트 삭제
     @Transactional
     public void deleteComment(Long id) {
         commentRepository.deleteById(id);
     }
+
+    // 동일한 장소에 동일한 회원의 코멘트 존재 여부 확인
+    @Transactional(readOnly = true)
+    public boolean checkCommentExists(Long placeId, Long memberId) {
+        return commentRepository.existsByPlaceIdAndMemberId(placeId, memberId);
+    }
 }
+
