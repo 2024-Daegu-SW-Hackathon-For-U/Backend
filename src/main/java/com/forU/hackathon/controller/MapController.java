@@ -2,6 +2,7 @@ package com.forU.hackathon.controller;
 
 import com.forU.hackathon.dto.map.MapRequest;
 import com.forU.hackathon.dto.map.MapResponse;
+import com.forU.hackathon.entity.MapType;
 import com.forU.hackathon.service.MapService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,7 +36,7 @@ public class MapController {
 
     @GetMapping
     @Operation(summary = "지도 조회 API")
-    public ResponseEntity<List<MapResponse.Info>> getAllMap() {
-        return new ResponseEntity<>(mapService.getAll(), HttpStatus.OK);
+    public ResponseEntity<List<MapResponse.Info>> getAllMap(@RequestParam(required = false) MapType type) {
+        return new ResponseEntity<>(mapService.getAll(type), HttpStatus.OK);
     }
 }
