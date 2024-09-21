@@ -31,6 +31,9 @@ public class PlaceService {
 
         placeRepository.save(place);
 
+        if(placeInMapRepository.existsByMapAndPlace(map, place)) {
+            throw new IllegalStateException("이미 추가되어있는 장소입니다.");
+        }
         PlaceInMap placeInMap = new PlaceInMap(null, map, place);
         placeInMapRepository.save(placeInMap);
     }
