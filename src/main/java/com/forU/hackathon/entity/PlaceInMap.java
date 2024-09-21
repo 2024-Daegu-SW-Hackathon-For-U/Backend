@@ -19,5 +19,4 @@ public class PlaceInMap {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Place place;
-
 }

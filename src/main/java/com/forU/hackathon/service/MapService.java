@@ -15,7 +15,7 @@ public class MapService {
     private final MapRepository mapRepository;
 
     public MapResponse.Info create(MapRequest.Create request) {
-        Map map = new Map(null, request.getName(), request.getType());
+        Map map = new Map(null, request.getName(), request.getType(), null);
         mapRepository.save(map);
         return MapResponse.Info.from(map);
     }
