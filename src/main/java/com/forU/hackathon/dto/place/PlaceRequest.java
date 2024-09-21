@@ -7,7 +7,6 @@ public class PlaceRequest {
     @Getter
     @AllArgsConstructor
     public static class Create {
-        private Long mapId;
         private Long placeId;
         private String name;
         private String address;

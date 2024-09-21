@@ -15,24 +15,25 @@ import java.util.List;
 @Tag(name="2. Place", description = "장소 관련 API")
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/map/{mapId}/place")
 public class PlaceController {
     private final PlaceService placeService;
 
-    @PostMapping("/api/place")
+    @PostMapping()
     @Operation(summary = "특정 지도에 장소를 추가합니다.")
-    public ResponseEntity<Void> createPlace(@RequestBody PlaceRequest.Create request) {
-        placeService.create(request);
+    public ResponseEntity<Void> createPlace(@PathVariable Long mapId, @RequestBody PlaceRequest.Create request) {
+        placeService.create(mapId, request);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/api/{mapId}/{placeId}")
+    @DeleteMapping("/{placeId}")
     @Operation(summary = "특정 지도의 장소를 삭제합니다.")
     public ResponseEntity<Void> deletePlace(@PathVariable Long mapId, @PathVariable Long placeId) {
         placeService.delete(mapId, placeId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/api/map/{mapId}/place")
+    @GetMapping()
     @Operation(summary = "특정 지도의 장소 조회 API")
     public ResponseEntity<List<PlaceResponse.Info>> getPlaces(@PathVariable Long mapId) {
         return new ResponseEntity<>(placeService.getAll(mapId), HttpStatus.OK);
