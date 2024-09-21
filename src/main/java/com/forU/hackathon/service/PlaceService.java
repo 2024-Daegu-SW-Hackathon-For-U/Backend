@@ -37,4 +37,9 @@ public class PlaceService {
         PlaceInMap placeInMap = new PlaceInMap(null, map, place);
         placeInMapRepository.save(placeInMap);
     }
+
+    @Transactional
+    public void delete(Long mapId, Long placeId) {
+        placeInMapRepository.deleteByMapIdAndPlaceId(mapId, placeId);
+    }
 }

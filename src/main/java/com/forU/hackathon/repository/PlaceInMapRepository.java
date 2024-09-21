@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface PlaceInMapRepository extends JpaRepository<PlaceInMap, Long> {
     boolean existsByMapAndPlace(Map map, Place place);
+
+    void deleteByMapIdAndPlaceId(Long mapId, Long placeId);
 }

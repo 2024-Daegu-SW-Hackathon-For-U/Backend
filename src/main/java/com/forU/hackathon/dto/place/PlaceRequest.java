@@ -14,4 +14,6 @@ public class PlaceRequest {
         private Double latitude;
         private Double longitude;
     }
+
+
 }

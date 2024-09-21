@@ -7,9 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Tag(name="2. Place", description = "장소 관련 API")
 @RestController
@@ -22,5 +20,12 @@ public class PlaceController {
     public ResponseEntity<Void> createPlace(@RequestBody PlaceRequest.Create request) {
         placeService.create(request);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/api/{mapId}/{placeId}")
+    @Operation(summary = "특정 지도의 장소를 삭제합니다.")
+    public ResponseEntity<Void> deletePlace(@PathVariable Long mapId, @PathVariable Long placeId) {
+        placeService.delete(mapId, placeId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
