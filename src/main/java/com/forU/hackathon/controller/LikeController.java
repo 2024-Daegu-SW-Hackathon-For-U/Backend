@@ -17,7 +17,7 @@ public class LikeController {
 
     @PostMapping("/api/like/place/{placeId}")
     public ResponseEntity<Void> createLikePlace(@PathVariable("placeId") Long placeId) {
-
+        likeService.createLikePlace(placeId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

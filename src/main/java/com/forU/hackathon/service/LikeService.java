@@ -20,6 +20,7 @@ public class LikeService {
 
     @Transactional
     public void createLikePlace(Long placeId) {
+        //ToDo: 멤버 추가 후 로직 수정 필요
         Place place = placeRepository.findById(placeId)
                 .orElseThrow(() -> new NoSuchElementException("해당 장소가 존재하지 않습니다."));
 
