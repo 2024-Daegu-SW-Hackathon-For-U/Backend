@@ -23,8 +23,8 @@ public class PlaceService {
     private final PlaceInMapRepository placeInMapRepository;
 
     @Transactional
-    public void create(PlaceRequest.Create request) {
-        Map map = mapRepository.findById(request.getMapId())
+    public void create(Long mapId, PlaceRequest.Create request) {
+        Map map = mapRepository.findById(mapId)
                 .orElseThrow(() -> new NoSuchElementException("해당 지도가 존재하지 않습니다."));
 
         Place place = placeRepository.findById(request.getPlaceId()).orElse(
