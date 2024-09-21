@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name= "1. Map", description = "지도 관련 API")
 @RestController
 @RequiredArgsConstructor
@@ -29,5 +31,11 @@ public class MapController {
     public ResponseEntity<Void> deleteMap(@PathVariable Long mapId) {
         mapService.delete(mapId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping
+    @Operation(summary = "지도 조회 API")
+    public ResponseEntity<List<MapResponse.Info>> getAllMap() {
+        return new ResponseEntity<>(mapService.getAll(), HttpStatus.OK);
     }
 }

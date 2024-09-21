@@ -5,26 +5,25 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Map {
+public class Place {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private MapType type;
+    private String address;
 
-    @OneToMany(mappedBy = "map")
-    private List<PlaceInMap> placesInMap;
+    private Double latitude;
 
-    //ToDo: 유저 엔티티 추가 후 연관관계 매핑 필요
+    private Double longitude;
+
+    @OneToMany(mappedBy = "place")
+    private List<PlaceInMap> placeInMap;
 }
