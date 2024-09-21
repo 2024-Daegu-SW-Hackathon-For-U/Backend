@@ -1,6 +1,7 @@
 package com.forU.hackathon.service;
 
 import com.forU.hackathon.dto.place.PlaceRequest;
+import com.forU.hackathon.dto.place.PlaceResponse;
 import com.forU.hackathon.entity.Map;
 import com.forU.hackathon.entity.Place;
 import com.forU.hackathon.entity.PlaceInMap;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -41,5 +43,15 @@ public class PlaceService {
     @Transactional
     public void delete(Long mapId, Long placeId) {
         placeInMapRepository.deleteByMapIdAndPlaceId(mapId, placeId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PlaceResponse.Info> getAll(Long mapId) {
+        //ToDo: 쿼리 최적화 필요
+        List<Place> places = placeInMapRepository.findAllByMapId(mapId)
+                .stream()
+                .map(PlaceInMap::getPlace)
+                .toList();
+        return places.stream().map(PlaceResponse.Info::from).toList();
     }
 }
