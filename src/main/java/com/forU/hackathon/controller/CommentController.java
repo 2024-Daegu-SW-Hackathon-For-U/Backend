@@ -2,11 +2,11 @@ package com.forU.hackathon.controller;
 
 import com.forU.hackathon.dto.comment.CommentRequest;
 import com.forU.hackathon.dto.comment.CommentResponse;
-import com.forU.hackathon.dto.kakao.UserInfoResponse; // UserInfoResponse 추가
+import com.forU.hackathon.dto.kakao.UserInfoResponse;
 import com.forU.hackathon.entity.Member;
 import com.forU.hackathon.entity.Place;
 import com.forU.hackathon.service.CommentService;
-import com.forU.hackathon.service.KakaoService; // KakaoService 추가
+import com.forU.hackathon.service.KakaoService;
 import com.forU.hackathon.service.MemberService;
 import com.forU.hackathon.service.PlaceService;
 import io.swagger.v3.oas.annotations.tags.Tag;

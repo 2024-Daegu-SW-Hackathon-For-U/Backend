@@ -25,10 +25,10 @@ public class CommentService {
     public CommentResponse createComment(CommentRequest commentRequestDTO, Member member, Place place) {
         // 현재 최대 ID 조회
         Long maxId = commentRepository.findMaxId();
-        Long newId = (maxId == null) ? 1 : maxId + 1; // 첫 번째 ID는 1로 설정
+        Long newId = (maxId == null) ? 1 : maxId + 1;
 
         Comment comment = new Comment();
-        comment.setId(newId); // 수동으로 ID 설정
+        comment.setId(newId);
         comment.setContent(commentRequestDTO.getContent());
         comment.setMember(member);
         comment.setPlace(place);
