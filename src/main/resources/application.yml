@@ -1,3 +1,7 @@
+kakao:
+  api_key: 9922a156f850172c4608e54b2e89d03a
+  redirect_uri: http://localhost:8080/api/member/login
+
 spring:
   profiles:
     active: ${ext.profile}

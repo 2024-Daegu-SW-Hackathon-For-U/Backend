@@ -25,7 +25,7 @@ public class Member {
     private String kakaoId; // 카카오 ID 필드
 
     // 생성자 추가 (nickname과 kakaoId를 인자로 받는 생성자)
-    public Member(String nickname, String kakaoId) {
+    public Member(String nickname, Long Id) {
         this.nickname = nickname;
         this.kakaoId = kakaoId;
     }
