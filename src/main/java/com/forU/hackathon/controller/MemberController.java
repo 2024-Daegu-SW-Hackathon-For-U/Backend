@@ -7,13 +7,13 @@ import com.forU.hackathon.service.KakaoService;
 import com.forU.hackathon.service.MemberService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.json.JSONException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.UUID;
@@ -30,9 +30,27 @@ public class MemberController {
         this.kakaoService = kakaoService;
         this.memberService = memberService;
     }
+    @Value("${kakao.api_key}")
+    private String kakaoApiKey;
 
-    // 카카오 로그인
     @GetMapping("/login")
+    public ResponseEntity<Void> initiateLogin() {
+        String clientId = kakaoApiKey; // 카카오 앱의 클라이언트 ID
+        String redirectUri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/api/member/callback") // 로그인 콜백 URI
+                .toUriString();
+        String state = UUID.randomUUID().toString(); // CSRF 방지를 위한 상태 값
+
+        String kakaoAuthUrl = "https://kauth.kakao.com/oauth/authorize" +
+                "?client_id=" + clientId +
+                "&redirect_uri=" + redirectUri +
+                "&response_type=code" +
+                "&state=" + state;
+
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(kakaoAuthUrl)).build();
+    }
+
+    @GetMapping("/callback")
     public ResponseEntity<?> login(@RequestParam String code, HttpSession session) throws JSONException {
         String accessToken = kakaoService.getAccessToken(code);
         UserInfoResponse userInfo = kakaoService.getUserInfo(accessToken);
