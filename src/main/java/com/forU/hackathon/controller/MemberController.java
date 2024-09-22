@@ -7,13 +7,16 @@ import com.forU.hackathon.service.KakaoService;
 import com.forU.hackathon.service.MemberService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.json.JSONException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+
+import java.net.URI;
+import java.util.UUID;
 
 @Tag(name= "3. Member", description = "멤버 관련 API")
 @RestController
@@ -54,7 +57,7 @@ public class MemberController {
             newUserInfo.setNickname(nickname);
 
             // 회원가입 처리
-            Member newMember = memberService.registerMember(newUserInfo);
+            Member newMember = memberService.registerMember(newUserInfo, userInfo.getId());
 
             // 새로 등록된 회원 정보와 액세스 토큰 반환
             return ResponseEntity.ok(new LoginResponse(newMember, accessToken));
@@ -64,14 +67,24 @@ public class MemberController {
 
     // 로그아웃
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) {
-        // 세션에서 액세스 토큰 가져오기
-        String accessToken = (String) session.getAttribute("accessToken");
-        new SecurityContextLogoutHandler().logout(request, response, null);
-        session.removeAttribute("accessToken");
+    public ResponseEntity<String> logout(HttpSession session) {
+        // 리다이렉트 URI 설정
+        String logoutRedirectUri = "http://localhost:5500/index.html";
+        String state = UUID.randomUUID().toString();
 
-        // 액세스 토큰 반환
-        return ResponseEntity.ok("로그아웃 성공, 액세스 토큰: " + accessToken);
+        // 카카오 로그아웃 요청
+        try {
+            kakaoService.logout(logoutRedirectUri, state);
+        } catch (Exception e) {
+            return ResponseEntity.ok("카카오 로그아웃 실패: " + e.getMessage());
+        }
+
+        // 세션에서 액세스 토큰 제거
+        if (session != null) {
+            session.removeAttribute("accessToken");
+        }
+
+        // 리다이렉트 응답 반환
+        return ResponseEntity.status(HttpStatus.FOUND).location(URI.create(logoutRedirectUri)).build();
     }
-
 }

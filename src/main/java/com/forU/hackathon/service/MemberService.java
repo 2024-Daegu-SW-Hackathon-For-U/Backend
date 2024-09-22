@@ -15,14 +15,14 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public Member registerMember(UserInfoResponse userInfo) {
-        // 중복된 ID
-        if (memberRepository.findById(userInfo.getId()) != null) {
+    public Member registerMember(UserInfoResponse userInfo, Long customId) {
+        // 중복된 ID 확인
+        if (memberRepository.findById(customId).isPresent()) {
             throw new IllegalArgumentException("이미 등록된 회원입니다.");
         }
 
         // 새로운 회원 등록
-        Member member = new Member(userInfo.getNickname(), userInfo.getId());
+        Member member = new Member(userInfo.getNickname(), customId);
         return memberRepository.save(member);
     }
 
@@ -30,4 +30,5 @@ public class MemberService {
     public Optional<Member> findById(Long id) {
         return memberRepository.findById(id);
     }
+
 }
