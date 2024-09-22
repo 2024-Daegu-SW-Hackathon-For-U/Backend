@@ -10,9 +10,6 @@ INSERT INTO place (id, name, description) VALUES (11343455, "달성공원", "대
 INSERT INTO place (id, name, description) VALUES (14600118, "김광석다시그리기길", "대구 중구 대봉동 6-11", 35.8740343528945, 128.6069533801216);
 INSERT INTO place (id, name, description) VALUES (15174531, "대구앞산공원", "대구 남구 대명동 산 227-5", 35.82721640685348, 128.58765535374687);
 INSERT INTO place (id, name, description) VALUES (14600118, "수성못", "대구 수성구 두산동 539", 35.82770180872425, 128.61727641474653);
-INSERT INTO place (id, name, description) VALUES (14600118, "김광석다시그리기길", "대구 중구 대봉동 6-11", 35.8740343528945, 128.6069533801216);
-INSERT INTO place (id, name, description) VALUES (14600118, "김광석다시그리기길", "대구 중구 대봉동 6-11", 35.8740343528945, 128.6069533801216);
-
 
 -- PlaceInMap 테이블에 데이터 삽입
 INSERT INTO place_in_map (id, map_id, place_id) VALUES (1, 1, 1); -- City Park에 Central Fountain
