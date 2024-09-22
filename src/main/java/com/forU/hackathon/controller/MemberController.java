@@ -70,11 +70,10 @@ public class MemberController {
     public ResponseEntity<String> logout(HttpSession session) {
         // 리다이렉트 URI 설정
         String logoutRedirectUri = "http://localhost:5500/index.html";
-        String state = UUID.randomUUID().toString();
 
         // 카카오 로그아웃 요청
         try {
-            kakaoService.logout(logoutRedirectUri, state);
+            kakaoService.logout(logoutRedirectUri);
         } catch (Exception e) {
             return ResponseEntity.ok("카카오 로그아웃 실패: " + e.getMessage());
         }

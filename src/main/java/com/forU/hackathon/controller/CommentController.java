@@ -73,7 +73,7 @@ public class CommentController {
         if (updatedComment != null) {
             return ResponseEntity.ok(updatedComment);
         }
-        return ResponseEntity.notFound().build(); // 예외 처리
+        return ResponseEntity.notFound().build();
     }
 
     // 코멘트 조회 (GET) - 장소 ID와 멤버 ID로 조회

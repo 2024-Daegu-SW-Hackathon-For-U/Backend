@@ -68,7 +68,7 @@ public class KakaoService {
 
         return userInfo;
     }
-    public void logout(String logoutRedirectUri, String state) {
+    public void logout(String logoutRedirectUri) {
         String url = String.format("https://kauth.kakao.com/oauth/logout?client_id=%s&logout_redirect_uri=%s",
                 kakaoApiKey, logoutRedirectUri);
 

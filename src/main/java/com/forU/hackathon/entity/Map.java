@@ -23,6 +23,9 @@ public class Map {
     @Column(nullable = false)
     private MapType type;
 
+    @Column(nullable = false)
+    private int count = 0;
+
     @OneToMany(mappedBy = "map")
     private List<PlaceInMap> placesInMap;
 

@@ -26,7 +26,6 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    // findById 메서드 추가
     public Optional<Member> findById(Long id) {
         return memberRepository.findById(id);
     }
