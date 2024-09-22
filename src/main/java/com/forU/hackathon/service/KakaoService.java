@@ -68,4 +68,18 @@ public class KakaoService {
 
         return userInfo;
     }
+    public void logout(String logoutRedirectUri, String state) {
+        String url = String.format("https://kauth.kakao.com/oauth/logout?client_id=%s&logout_redirect_uri=%s",
+                kakaoApiKey, logoutRedirectUri);
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        // 카카오 로그아웃 요청
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+        // 응답 처리
+        if (!response.getStatusCode().is2xxSuccessful()) {
+            throw new RuntimeException("카카오 로그아웃 실패: " + response.getBody());
+        }
+    }
 }

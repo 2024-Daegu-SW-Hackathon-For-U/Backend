@@ -6,8 +6,8 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "comments")
-@Getter // 모든 필드에 대한 getter 메서드 생성
-@Setter // 모든 필드에 대한 setter 메서드 생성
+@Getter
+@Setter
 public class Comment {
 
     @Id
@@ -15,15 +15,15 @@ public class Comment {
     private Long id; // PK
 
     @Column(nullable = false)
-    private String content; // 코멘트 내용
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private Member member; // Member 엔티티와의 관계
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
-    private Place place; // Post 엔티티와의 관계
+    private Place place;
 
     // 기본 생성자
     public Comment() {}
